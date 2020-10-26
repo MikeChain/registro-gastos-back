@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/MikeChain/registro-gastos-back/handlers"
+)
 
 func main() {
-	fmt.Println("Holis Mundo")
+	handlers.Manejadores()
 }
