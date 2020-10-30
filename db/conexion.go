@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,10 +11,17 @@ import (
 
 // MongoConexion almacena el cliente de conexión a la DB
 var MongoConexion = ConectarDB()
-var clientOptions = options.Client().ApplyURI("")
+var url = os.Getenv("mongoConection")
 
 // ConectarDB es la función para establecer la conexión con la base de datos
 func ConectarDB() *mongo.Client {
+
+	if url == "" {
+		url = "mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb"
+	}
+
+	clientOptions := options.Client().ApplyURI(url)
+
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
