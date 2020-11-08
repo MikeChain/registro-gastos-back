@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/MikeChain/registro-gastos-back/middlewares"
+	"github.com/MikeChain/registro-gastos-back/routers"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
@@ -12,6 +14,8 @@ import (
 // Manejadores genera los enpoint
 func Manejadores() {
 	router := mux.NewRouter()
+
+	router.HandleFunc("/login", middlewares.RevisarConexion(routers.Login)).Methods("POST")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
