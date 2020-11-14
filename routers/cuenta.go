@@ -32,5 +32,23 @@ func InsertarCuenta(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+}
 
+// BuscarCuentas permite obtener las cuentas registradas de un usuario
+func BuscarCuentas(w http.ResponseWriter, r *http.Request) {
+	ID := r.URL.Query().Get("id")
+	if len(ID) < 1 {
+		http.Error(w, "Debe enviar el ID", http.StatusBadRequest)
+		return
+	}
+
+	respuesta, ok := db.BuscarCuentas(ID)
+	if !ok {
+		http.Error(w, "Error al buscar cuentas", http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(respuesta)
 }

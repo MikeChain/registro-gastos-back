@@ -20,6 +20,7 @@ func Manejadores() {
 
 	// endpoints para cuentas
 	router.HandleFunc("/cuenta", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarCuenta))).Methods("POST")
+	router.HandleFunc("/cuenta", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarCuentas))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
