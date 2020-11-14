@@ -11,13 +11,13 @@ import (
 // InsertarCuenta permite agregar una cuenta para realizar movimientos
 func InsertarCuenta(w http.ResponseWriter, r *http.Request) {
 	var cuenta struct {
-		Mensaje string `bson:"mensaje" json:"mensaje"`
+		Cuenta string `bson:"cuenta" json:"cuenta"`
 	}
 	err := json.NewDecoder(r.Body).Decode(&cuenta)
 
 	registro := models.Cuentas{
 		UserID: IDUsuario,
-		Cuenta: cuenta.Mensaje,
+		Cuenta: cuenta.Cuenta,
 	}
 
 	_, status, err := db.InsertarCuenta(registro)
