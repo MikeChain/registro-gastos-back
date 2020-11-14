@@ -15,6 +15,20 @@ func InsertarCuenta(w http.ResponseWriter, r *http.Request) {
 	}
 	err := json.NewDecoder(r.Body).Decode(&cuenta)
 
+	cuentas, _ := db.BuscarCuentas(IDUsuario)
+
+	for _, a := range cuentas {
+		if a.Cuenta == cuenta.Cuenta {
+			http.Error(w, "La cuenta ya existe", 400)
+			return
+		}
+	}
+
+	if cuenta.Cuenta == "" {
+		http.Error(w, "Envió un nombre de cuenta vacío", 400)
+		return
+	}
+
 	registro := models.Cuentas{
 		UserID: IDUsuario,
 		Cuenta: cuenta.Cuenta,
