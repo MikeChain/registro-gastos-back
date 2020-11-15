@@ -26,6 +26,10 @@ func Manejadores() {
 	router.HandleFunc("/rubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarRubro))).Methods("POST")
 	router.HandleFunc("/rubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarRubros))).Methods("GET")
 
+	// endpoinst para subrubros
+	router.HandleFunc("/subrubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarSubrubro))).Methods("POST")
+	router.HandleFunc("/subrubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarSubrubros))).Methods("GET")
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "8080"

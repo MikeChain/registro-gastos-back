@@ -26,7 +26,7 @@ func InsertarRubro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rubro.Rubro == "" {
-		http.Error(w, "Envió un nombre de cuenta vacío", 400)
+		http.Error(w, "Envió un nombre de rubro vacío", 400)
 		return
 	}
 

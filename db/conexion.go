@@ -45,3 +45,4 @@ func ConexionEstablecida() bool {
 var db = MongoConexion.Database("movimientos")
 var cuentasCol = db.Collection("cuentas")
 var rubrosCol = db.Collection("rubros")
+var subrubrosCol = db.Collection("subrubros")
