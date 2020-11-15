@@ -18,6 +18,7 @@ func InsertarRubro(t models.Rubros) (string, bool, error) {
 	registro := bson.M{
 		"tipoid": t.TipoID,
 		"rubro":  t.Rubro,
+		"userid": t.UserID,
 	}
 
 	result, err := rubrosCol.InsertOne(ctx, registro)
