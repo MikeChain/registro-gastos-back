@@ -40,3 +40,8 @@ func ConexionEstablecida() bool {
 
 	return err == nil
 }
+
+// database
+var db = MongoConexion.Database("movimientos")
+var cuentasCol = db.Collection("cuentas")
+var rubrosCol = db.Collection("rubros")

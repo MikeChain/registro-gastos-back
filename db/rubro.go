@@ -10,17 +10,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// InsertarCuenta guarda una cuenta en la DB
-func InsertarCuenta(t models.Cuentas) (string, bool, error) {
+// InsertarRubro guarda un rubro en la DB
+func InsertarRubro(t models.Rubros) (string, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
 	registro := bson.M{
-		"userid": t.UserID,
-		"cuenta": t.Cuenta,
+		"tipoid": t.TipoID,
+		"rubro":  t.Rubro,
 	}
 
-	result, err := cuentasCol.InsertOne(ctx, registro)
+	result, err := rubrosCol.InsertOne(ctx, registro)
 	if err != nil {
 		return "", false, err
 	}
@@ -29,17 +29,18 @@ func InsertarCuenta(t models.Cuentas) (string, bool, error) {
 	return objID.String(), true, nil
 }
 
-// BuscarCuentas busca las cuentas que un usuario tiene registrado en la DB
-func BuscarCuentas(ID string) ([]*models.Cuentas, bool) {
+// BuscarRubros busca los rubros que le pertenecen a un tipo de movimiento según el usuario
+func BuscarRubros(IDuser, IDtipo string) ([]*models.Rubros, bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	var resultados []*models.Cuentas
+	var resultados []*models.Rubros
 	condicion := bson.M{
-		"userid": ID,
+		"userid": IDuser,
+		"tipoid": IDtipo,
 	}
 
-	cursor, err := cuentasCol.Find(ctx, condicion)
+	cursor, err := rubrosCol.Find(ctx, condicion)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -47,7 +48,7 @@ func BuscarCuentas(ID string) ([]*models.Cuentas, bool) {
 	}
 
 	for cursor.Next(context.TODO()) {
-		var registro models.Cuentas
+		var registro models.Rubros
 		err := cursor.Decode(&registro)
 
 		if err != nil {
@@ -56,6 +57,5 @@ func BuscarCuentas(ID string) ([]*models.Cuentas, bool) {
 
 		resultados = append(resultados, &registro)
 	}
-
 	return resultados, true
 }
