@@ -13,14 +13,19 @@ import (
 // InsertarMovimiento sirve para agregar un movimiento
 func InsertarMovimiento(w http.ResponseWriter, r *http.Request) {
 	var movimiento struct {
-		CuentaID   string    `bson:"cuentaid" json:"cutnaid"`
-		TipoID     string    `bson:"tipoid" json:"tipoid"`
-		RubroID    string    `bson:"rubroid" json:"rubroid"`
-		SubrubroID string    `bson:"subrubroid" json:"subrubroid"`
-		Momento    time.Time `bson:"momento" json:"momento"`
-		Detalle    string    `bson:"detalle" json:"detalle"`
+		CuentaID   string        `bson:"cuentaid" json:"cutnaid"`
+		TipoID     string        `bson:"tipoid" json:"tipoid"`
+		RubroID    string        `bson:"rubroid" json:"rubroid"`
+		SubrubroID string        `bson:"subrubroid" json:"subrubroid,omitempty"`
+		Momento    time.Time     `bson:"momento" json:"momento"`
+		Detalle    string        `bson:"detalle" json:"detalle"`
+		Importe    models.Dinero `bson:"importe" json:"importe"`
 	}
 	err := json.NewDecoder(r.Body).Decode(&movimiento)
+
+	if movimiento.Importe.EsMenorQue(1) {
+		http.Error(w, "El importe debe ser mayor a 0", 400)
+	}
 
 	if movimiento.CuentaID == "" {
 		http.Error(w, "Debe seleccionar una cuenta", 400)
@@ -55,16 +60,17 @@ func InsertarMovimiento(w http.ResponseWriter, r *http.Request) {
 		SubrubroID: movimiento.SubrubroID,
 		Momento:    movimiento.Momento,
 		Detalle:    movimiento.Detalle,
+		Importe:    movimiento.Importe,
 	}
 
 	_, status, err := db.InsertarMovimiento(registro)
 	if err != nil {
-		http.Error(w, "Problemas al insertar el rubro "+err.Error(), 400)
+		http.Error(w, "Problemas al insertar el movimiento "+err.Error(), 400)
 		return
 	}
 
 	if !status {
-		http.Error(w, "No se pudo guardar el rubro", 400)
+		http.Error(w, "No se pudo guardar el movimiento", 400)
 		return
 	}
 
