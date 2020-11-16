@@ -22,13 +22,22 @@ func Manejadores() {
 	router.HandleFunc("/cuenta", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarCuenta))).Methods("POST")
 	router.HandleFunc("/cuenta", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarCuentas))).Methods("GET")
 
-	// endpoinst para rubros
+	// endpoints para rubros
 	router.HandleFunc("/rubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarRubro))).Methods("POST")
 	router.HandleFunc("/rubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarRubros))).Methods("GET")
 
-	// endpoinst para subrubros
+	// endpoints para subrubros
 	router.HandleFunc("/subrubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarSubrubro))).Methods("POST")
 	router.HandleFunc("/subrubro", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarSubrubros))).Methods("GET")
+
+	// endpoints para movimientos
+	router.HandleFunc("/movimientos", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.InsertarMovimiento))).Methods("POST")
+	router.HandleFunc("/movimientos", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarMovimientos))).Methods("GET")
+
+	// TODO: movimientos especiales:
+	// movimientos de una cuenta
+	// movimientos por tipo
+	// movimientos por fecha (YTD, MTD)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
