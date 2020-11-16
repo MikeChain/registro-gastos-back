@@ -35,7 +35,10 @@ func Manejadores() {
 	router.HandleFunc("/movimientos", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarMovimientos))).Methods("GET")
 
 	// TODO: movimientos especiales:
-	// movimientos de una cuenta
+	// resultados por cuenta
+	// router.HandleFunc("/cuentas/movimientos}", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarMovimientos))).Methods("GET")
+	// movimientos por cuenta
+	// router.HandleFunc("/movimientos/cuentas/{ID:[a-zA-Z0-9_]+}", middlewares.RevisarConexion(middlewares.ValidarJWT(routers.BuscarMovimientos))).Methods("GET")
 	// movimientos por tipo
 	// movimientos por fecha (YTD, MTD)
 

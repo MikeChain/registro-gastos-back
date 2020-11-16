@@ -59,3 +59,5 @@ func BuscarCuentas(ID string) ([]*models.Cuentas, bool) {
 
 	return resultados, true
 }
+
+// ResultadosCuenta agrupa los movimientos de una cuenta de acuerdo a su tipo
