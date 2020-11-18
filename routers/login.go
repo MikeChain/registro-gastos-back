@@ -40,20 +40,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	expirationTime := time.Now().Add(2 * time.Hour)
+
 	resp := models.RespuestaLogin{
-		Token: jwtKey,
+		Token:   jwtKey,
+		Expires: expirationTime,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(resp)
-
-	expirationTime := time.Now().Add(24 * time.Hour)
-	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
-		Value:   jwtKey,
-		Expires: expirationTime,
-	})
 }
 
 func generarJwt(t models.Usuario) (string, error) {
